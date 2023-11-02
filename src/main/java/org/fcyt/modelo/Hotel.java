@@ -5,7 +5,6 @@ public class Hotel {
     private String nombre;
     private String direccion;
     private String telefono;
-
     public String getNombre() {
         return nombre;
     }

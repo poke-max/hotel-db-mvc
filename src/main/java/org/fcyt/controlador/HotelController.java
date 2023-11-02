@@ -59,7 +59,7 @@ public class HotelController implements ActionListener {
         });
 
         mostrar();
-
+        gui.jTable1.requestFocus();
     }
 
     @Override
