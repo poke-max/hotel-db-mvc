@@ -2,7 +2,6 @@ package org.fcyt.modelo.dao;
 
 import org.fcyt.modelo.Conexion;
 import org.fcyt.modelo.Hotel;
-import org.fcyt.modelo.tabla.HotelTableModel;
 
 import java.sql.*;
 import java.util.ArrayList;

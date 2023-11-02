@@ -1,8 +1,8 @@
+create database db_hoteles;
+
 create table hotel
 (
-    id        integer default nextval('"Hotel_id_seq"'::regclass) not null
-        constraint "Hotel_pkey"
-            primary key,
+    id serial primary key                                         not null,
     nombre    varchar(200)                                        not null,
     direccion varchar(200)                                        not null,
     telefono  varchar(40)                                         not null

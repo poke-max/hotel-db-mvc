@@ -1,14 +1,13 @@
 package org.fcyt.modelo.tabla;
 
 import org.fcyt.modelo.Hotel;
-import org.fcyt.modelo.dao.HotelDaoImpl;
-
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
 
 public class HotelTableModel extends AbstractTableModel {
+
     List<Hotel> lista;
-    String[] columnName = {"Id", "Nombre", "Direccion", "Teléfono", "Action", "Action"};
+    String[] columnName = {"Id", "Nombre", "Direccion", "Teléfono", "Editar", "Borrar"};
 
     public void setColumnName(String[] columnName) {
         this.columnName = columnName;
