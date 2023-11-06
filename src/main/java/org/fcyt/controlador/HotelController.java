@@ -7,7 +7,9 @@ import org.fcyt.vista.GUIHotel;
 import org.fcyt.vista.GUIHotelRegister;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
+import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
 
@@ -28,10 +30,8 @@ public class HotelController implements ActionListener {
         gui.btnNuevo.addActionListener(this);
         model = new HotelTableModel();
         listar();
-        configurarTabla();
-        buscar();
-
         gui.jTable1.addMouseListener(new MouseAdapter() {
+
             @Override
             public void mouseClicked(MouseEvent e) {
                 selectedRow = gui.jTable1.getSelectedRow();
@@ -57,22 +57,17 @@ public class HotelController implements ActionListener {
                 }
             }
         });
-
+        configurarTabla();
+        buscar();
         mostrar();
-        gui.jTable1.requestFocus();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == gui.btnNuevo) {
             operation = 'N';
-            int ultimoId = 0;
-
-            if (rowCount != 0) {
-                ultimoId = model.getSelectedEntity(rowCount - 1).getId();
-            }
             abrirFormulario("NUEVO HOTEL");
-            reg.txtId.setText(String.valueOf(ultimoId + 1));
+            reg.txtId.setText(String.valueOf(abm.siguienteId() + 1));
             reg.setVisible(true);
         }
         if (e.getSource() == reg.btnGuardar) {
@@ -82,13 +77,13 @@ public class HotelController implements ActionListener {
                     limpiarCampos();
                     listar();
                     gui.jTable1.getSelectionModel().setSelectionInterval(rowCount - 1, rowCount - 1);
-                    reg.setVisible(false);
+                    reg.dispose();
                     break;
                 case 'E':
                     abm.modificar(getFormulario());
                     limpiarCampos();
                     listar();
-                    reg.setVisible(false);
+                    reg.dispose();
                     break;
             }
         }
@@ -135,6 +130,7 @@ public class HotelController implements ActionListener {
     public void abrirFormulario(String titulo) {
         reg = new GUIHotelRegister(new JFrame(), true);
         reg.txtId.setEnabled(false);
+        reg.txtId.setEditable(false);
         reg.btnGuardar.addActionListener(this);
         reg.jLabel2.setText(titulo);
         reg.setLocationRelativeTo(null);
@@ -142,15 +138,15 @@ public class HotelController implements ActionListener {
 
     public void configurarTabla() {
         TableColumn deleteColumn = gui.jTable1.getColumnModel().getColumn(gui.jTable1.getColumnCount() - 1);
+        TableColumn idColumn = gui.jTable1.getColumnModel().getColumn(0);
         TableColumn editColumn = gui.jTable1.getColumnModel().getColumn(gui.jTable1.getColumnCount() - 2);
 
         deleteColumn.setPreferredWidth(40);
+        idColumn.setPreferredWidth(40);
         editColumn.setPreferredWidth(40);
 
         deleteColumn.setResizable(false);
         editColumn.setResizable(false);
-
-        gui.jTable1.setDragEnabled(false);
     }
 
     public Hotel getFormulario() {
@@ -169,5 +165,6 @@ public class HotelController implements ActionListener {
         reg.txtDireccion.setText(h.getDireccion());
         reg.txtTelefono.setText(h.getTelefono());
     }
+
 
 }

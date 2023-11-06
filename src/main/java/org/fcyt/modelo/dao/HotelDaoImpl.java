@@ -12,9 +12,15 @@ import java.util.logging.Logger;
 public class HotelDaoImpl implements dao<Hotel> {
     Connection con;
     PreparedStatement st;
+
     public HotelDaoImpl() {
         con = Conexion.Conectar();
+        try{
+        Statement statement = con.createStatement();
+        statement.execute("select nextval('\"Hotel_id_seq\"')");
+        } catch (Exception ignored) {}
     }
+
     @Override
     public List<Hotel> listar(String value) {
         List<Hotel> lista = new ArrayList<>();
@@ -77,5 +83,21 @@ public class HotelDaoImpl implements dao<Hotel> {
         } catch (SQLException e) {
             Logger.getLogger(Hotel.class.getName()).log(Level.SEVERE, null, e);
         }
+    }
+
+    public int siguienteId() {
+        String cSQL = "select currval('\"Hotel_id_seq\"')";
+        int id = 0;
+        try {
+            st = con.prepareStatement(cSQL);
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                id = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return id;
     }
 }
